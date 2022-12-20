@@ -101,7 +101,7 @@ const uint8_t animHour[28][4] PROGMEM =
 
 DS3231 rtc;
 
-#define TIME_UPDATE_INTERVAL 100
+#define TIME_UPDATE_INTERVAL 200
 unsigned long timeToUpdate;
 
 #define SHOW_TIME_INTERVAL 17000
@@ -159,7 +159,8 @@ void print_date_time()
     int d = 100 * now.hour() + now.minute();
     uint8_t dots = ((now.second() & 1) == 0) ? 0x40 : 0;
 
-    if (rtc.oscillatorCheck())
+    // if (rtc.oscillatorCheck())
+    if (true)
     {
         display.showNumberDec(d, dots, true);
     }
@@ -222,10 +223,11 @@ void setupTimeFromSerial()
         rtc.setHour(hour);
         rtc.setMinute(minute);
         rtc.setSecond(second);
+        rtc.enableOscillator(true, false, 0);  // enable osc on battery, without external power
 
         Serial.println("RTC set Ok");
 
-        uint8_t segs[] = { 0x3e, 0x6d, 0x79, 0x5e };
+        uint8_t segs[] = { 0x6d, 0x3e, 0x39, 0x39 };
         display.setSegments(segs, 4, 0);
         display.setBrightness(bright);
         delay(2000);
@@ -238,6 +240,7 @@ void setupTimeFromSerial()
 
 void setup()
 {
+    delay(250);
     Serial.begin(115200);
     Wire.begin();
     display.clear();
