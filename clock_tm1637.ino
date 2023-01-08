@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <TM1637TinyDisplay.h>
 #include <EEPROM.h>
+#include "everytime.h"
 
 #define CLK 3
 #define DIO 2
@@ -101,7 +102,7 @@ const uint8_t animHour[28][4] PROGMEM =
 
 DS3231 rtc;
 
-#define TIME_UPDATE_INTERVAL 200
+#define TIME_UPDATE_INTERVAL 100
 unsigned long timeToUpdate;
 
 #define SHOW_TIME_INTERVAL 17000
@@ -159,16 +160,7 @@ void print_date_time()
     int d = 100 * now.hour() + now.minute();
     uint8_t dots = ((now.second() & 1) == 0) ? 0x40 : 0;
 
-    // if (rtc.oscillatorCheck())
-    if (true)
-    {
-        display.showNumberDec(d, dots, true);
-    }
-    else
-    {
-        uint8_t segs[] = { 0x49, 0x3f, 0x6d, 0x71 };
-        display.setSegments(segs, 4, 0);
-    }
+    display.showNumberDec(d, dots, true);
 }
 
 void setupTimeFromSerial()
