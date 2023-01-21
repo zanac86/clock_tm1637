@@ -219,7 +219,7 @@ void setupTimeFromSerial()
 
         Serial.println("RTC set Ok");
 
-        uint8_t segs[] = { 0x6d, 0x3e, 0x39, 0x39 };
+        uint8_t segs[] = { 0x00, 0x6e, 0x79, 0x6d };
         display.setSegments(segs, 4, 0);
         display.setBrightness(bright);
         delay(2000);

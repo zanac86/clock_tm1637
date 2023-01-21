@@ -23,7 +23,7 @@ ser = serial.Serial(ports[0].device, 115200, timeout=1, parity=serial.PARITY_NON
 
 # arduino reset by ch340 when open port
 # need delay after open before send time
-time.sleep(5)
+time.sleep(6)
 
 d = datetime.datetime.now()
 #timedelta(seconds=24)
@@ -31,3 +31,5 @@ d = datetime.datetime.now()
 s = d.strftime("$%y%m%d%H%M%S4$")
 print(s)
 ser.write(s.encode())
+
+time.sleep(3)
